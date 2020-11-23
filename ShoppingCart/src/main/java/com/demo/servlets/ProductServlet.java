@@ -1,6 +1,7 @@
 package com.demo.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,10 +21,8 @@ public class ProductServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Product productModel = new Product(request.getParameter("id"), request.getParameter("name"),
-				request.getParameter("photo"), Integer.parseInt(request.getParameter("price")));
-		request.setAttribute("products", productModel);
-		request.getRequestDispatcher("product/index.jsp").forward(request, response);
+		
+		response.sendRedirect("product/index.jsp");
 	}
 
 }

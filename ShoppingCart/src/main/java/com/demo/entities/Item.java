@@ -1,6 +1,9 @@
 package com.demo.entities;
 
-public class Item {	//商城內項目資料
+import java.io.Serializable;
+
+public class Item implements Serializable{	//商城內項目資料
+	private static final long serialVersionUID = 1L;
 
 	private Product product;
 	private int quantity;
@@ -16,13 +19,37 @@ public class Item {	//商城內項目資料
 	public Product getProduct() {
 		return product;
 	}
-
+	
+	public int getProductPrice() {
+		
+		return getProduct().getProductPrice();
+	}
+	
+	public int getProductId() {
+		return getProduct().getProductId();
+	}
+	
+	public String getProductShop() {
+		return getProduct().getProductShop();
+	}
+	
+	public String getProductName() {
+		return getProduct().getProductName();
+	}
+	
+	public String getProductPicture() {
+		
+		return getProduct().getProductPicture();
+	}
+	
+	
 	public void setProduct(Product product) {
 		this.product = product;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public Integer getProductQuantity() {
+		
+		return getProduct().getProductQuantity();
 	}
 
 	public void setQuantity(int quantity) {
