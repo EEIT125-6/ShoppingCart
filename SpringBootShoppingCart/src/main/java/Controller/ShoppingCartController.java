@@ -26,7 +26,7 @@ import Model.WebUserData;
 import Service.CartService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/controller")
 @SessionAttributes({ "userFullData" })
 public class ShoppingCartController {
 
@@ -67,8 +67,9 @@ public class ShoppingCartController {
 		return "cart/cart"; // webappconfig中已導入 prefix suffix (.jsp)
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@GetMapping(value = "itemremove") // 移除個人購物車中選定項目
+	@SuppressWarnings("unchecked")
 	public String itemRemover(@PathVariable(value = "id") int id, HttpSession session) {
 		List<CartItemBean> list = (List<CartItemBean>) session.getAttribute("cart");
 		int index = isExisting(id, session);
@@ -77,8 +78,9 @@ public class ShoppingCartController {
 		return "cart/cart";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@GetMapping(value = "itemadd") // 加入選定項目進入購物車
+	@SuppressWarnings("unchecked")
 	public String itemAdder(@PathVariable(value = "id") int id, HttpSession session) {
 		if (session.getAttribute("cart") == null) {
 			List<CartItemBean> list = new ArrayList<CartItemBean>();
@@ -89,12 +91,12 @@ public class ShoppingCartController {
 			list.add(new CartItemBean(this.service.find(id), 1));
 			session.setAttribute("cart", list);
 		}
-		return "cart/cart";
+		return "product/mall";
 
 	}
 
-	@SuppressWarnings("unchecked")
-	private static int isExisting(Integer inputid, HttpSession session) { // 檢查選擇商品是否存在於購物車內
+	@SuppressWarnings("unchecked") // 檢查選擇商品是否存在於購物車內
+	private static int isExisting(Integer inputid, HttpSession session) { 
 		List<CartItemBean> list = (List<CartItemBean>) session.getAttribute("cart");
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getProduct_id() == inputid) {
