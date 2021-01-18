@@ -5,12 +5,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
+
 import javax.servlet.http.HttpSession;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -91,18 +94,36 @@ public class ShoppingCartController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@GetMapping(value = "/checkout") // 導向至購物車結帳頁面
-	public String checkOuter(Model model) {
-		List<ProductInfoBean> list = (List<ProductInfoBean>) model.getAttribute("cart");
+	@PostMapping(value = "/checkout") // 導向至購物車結帳頁面
+	public String checkOuter(@RequestParam String purchaseInfo,Model model) {
+		System.out.println("checkout function initialized");
+		System.out.println("id="+purchaseInfo);
+		StringTokenizer st = new StringTokenizer(purchaseInfo,",");
+		while(st.hasMoreTokens()) {
+			System.out.println("result="+st.nextToken());
+		}		
+		
+		Map<String,String> list = service.setProductAmount(st);
+		
 		if (list == null) {
 			return "cart/cart";
 		} else {
 			return "checkout/checkout";
 		}
 	}
+	
+	@GetMapping(value="/clearCart")
+	@SuppressWarnings("unchecked") //購物車清除
+	public @ResponseBody List<ProductInfoBean> cartClearer(Model model){
+		System.out.println("cartClearer initialized");
+		List<ProductInfoBean>list = (List<ProductInfoBean>)model.getAttribute("cart");
+		list.clear();
+		model.addAttribute("cart",list);
+		return list;
+	}	
 
 	@GetMapping(value = "/itemadd")
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //加入商品至購物車
 	public @ResponseBody List<ProductInfoBean> itemAdder(
 			@RequestParam(value = "id") String id
 			, Model model

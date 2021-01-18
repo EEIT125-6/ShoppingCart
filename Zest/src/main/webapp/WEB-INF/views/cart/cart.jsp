@@ -31,12 +31,11 @@ response.setCharacterEncoding("UTF-8");
 	box-sizing: border-box;
 }
 
-.continueShopping {
-	background-color: white;
-	color: black;
-	border: 2px solid #f44336;
-}
-
+/* .continueShopping { */
+/* 	background-color: white; */
+/* 	color: black; */
+/* 	border: 2px solid #f44336; */
+/* } */
 .continueShopping:hover {
 	background-color: #f44336;
 	color: white;
@@ -229,8 +228,9 @@ ul.slides li img {
 	<!-- -------------------------------------------------------------- -->
 	<div class="container" style="margin-top: 20px;">
 		<!-- 		<form> -->
+		
 		<table cellpadding="2" cellspacing="2" border="1" align="center">
-		<thead>
+			<thead>
 				<th>清除</th>
 				<th>商品編號</th>
 				<th>商品店家</th>
@@ -239,7 +239,7 @@ ul.slides li img {
 				<th>商品價格</th>
 				<th>商品數量</th>
 				<th>小計</th>
-		</thead>
+			</thead>
 			<c:set var="total" value="0"></c:set>
 			<c:set var="quant" value="0"></c:set>
 			<c:forEach var="product" items="${cart}">
@@ -268,16 +268,43 @@ ul.slides li img {
 				</tr>
 			</c:forEach>
 			<tr>
+				
 				<td colspan="7" align="right">總計</td>
 				<td id="tot">0</td>
 			</tr>
 		</table>
+
+
+
 		<br>
-		<button type="button" class="continueShopping" onclick="mallRedirector()">繼續購物</button>
+		<button type="button" class="continueShopping"
+			onclick="mallRedirector()">繼續購物</button>
 		<button type="button" class="checkOut" onclick="checkCart()">結帳</button>
+	    <button style="float:left" onclick="clearCart()">清除購物車</button>
+		<!-- 向後端送值用 -->
+		<form method="Post" action=""
+			style="display: none"></form>
 
 
 		<script>	
+		
+			function clearCart(){
+				$.ajax({
+					url:"/WebProject/controller/clearCart",
+					type:"Get",
+					dataType:"JSON",
+					success:function(){
+						$("table").eq(0).children("tbody").children("tr").each(function(){
+							$(this).html("");
+						})
+						window.alert('您的購物車已清空!')
+					},
+					error:function(xhr,ajaxOptions,thrownError){
+						console.log(xhr.status);
+						console.log(thrownError);
+					}
+				})
+			}
 
 			function mallRedirector() {
 				console.log('mallRedirector is now initialized');
@@ -290,21 +317,29 @@ ul.slides li img {
 				var K = document.getElementById('tot').innerHTML;
 				let s = "";
 				$("table").eq(0).children("tbody").eq(0).children("tr").each(function(){
-					console.log("$(this).children('td').length()="+$(this).children("td").length)
+					console.log("$(this).children('td').length="+$(this).children("td").length)
 					
+					let row = $(this).children('td').length;
 					let value1 = $(this).children("td").eq(1).html();
 					let value2 = $(this).children("td").eq(6).children("input").val();
 					
-					s += value1+"|"+value2 +",";
-					
+					if(row==8){
+					s+=value2+","	
+// 					s+=value1+":"+value2+","
+					}else{
+					s+="" 
+					}
 				})
 				console.log("s="+s);
 				if (K > 0) {													
-					window.confirm('是否結帳');
-					window.location = "<c:url value='/controller/checkout'/>;";
-				} else {
+					let r = confirm('是否結帳');
+					if(r==true){
+						console.log('AJAX initialized');
+						$("form").eq(1).attr("action","/WebProject/controller/checkout?purchaseInfo="+s).submit();						
+					}else{
 					window.alert('您的購物車為空，請繼續購物後再結帳');
 						}
+			}
 			}
 			
 			
@@ -312,7 +347,7 @@ ul.slides li img {
 				
 			
 			
-	
+// 			購物車總價值計算
 			$(".qu").change(function()  {
 				var ProdPrice = parseInt($(this).parent().prev().text());
 				var SelVal = $(this).val();

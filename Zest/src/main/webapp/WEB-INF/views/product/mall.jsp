@@ -26,7 +26,7 @@ response.setCharacterEncoding("UTF-8");
 <style>
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
 
-*, *:before, *:after {
+*, *:before, *:after { 
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
