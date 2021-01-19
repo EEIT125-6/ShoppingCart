@@ -145,6 +145,8 @@ span.price {
 				})
 			})
 		})
+		
+		
 				
 		</script>
 </head>
@@ -179,10 +181,10 @@ span.price {
     <div class="container">
       <h4>您的購物車項目 <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i><b><c:out value="${fn:length(cart)}"/><c:out value="項商品"/></b></span></h4>
       <c:forEach var="product" items="${cart}">
-      <p><span>${product.product_name}</span><c:out value="x"/><span id="itemQuantity"></span><span class="price"><c:out value="NT$"/>${product.product_price}</span></p>
+      <p><span>${product.product_name}</span><c:out value="x"/><span id="itemQuantity">${itemQuantity[product.product_id]}</span><span class="price"><c:out value="NT$"/>${product.product_price*itemQuantity[product.product_id]}</span></p>
       <hr>
       </c:forEach>
-      <p>總計<span id="tot" class="price" style="color:black"><b></b></span></p>
+      <p>總計<span id="tot" class="price" style="color:black"><b>NT$ ${itemTotalValue}</b></span></p>
     </div>
     <button type="button" class="returnOrder">
 				<a href="<c:url value="/controller/mallRedirector"/>"onclick ="return confirm('是否確定放棄訂單? 您即將返回購物商城')">放棄訂單</a>

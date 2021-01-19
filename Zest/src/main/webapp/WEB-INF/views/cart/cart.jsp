@@ -228,7 +228,7 @@ ul.slides li img {
 	<!-- -------------------------------------------------------------- -->
 	<div class="container" style="margin-top: 20px;">
 		<!-- 		<form> -->
-		
+
 		<table cellpadding="2" cellspacing="2" border="1" align="center">
 			<thead>
 				<th>清除</th>
@@ -256,6 +256,7 @@ ul.slides li img {
 						src='<c:url value="/images/${product.product_picture}"/>'
 						width="120px"></td>
 					<td id="aa">${product.product_price}</td>
+					
 					<td><input list="quantities-list" name="ttt" class="qu">
 						<datalist id="quantities-list">
 							<option value="1"></option>
@@ -264,11 +265,12 @@ ul.slides li img {
 							<option value="4"></option>
 							<option value="5"></option>
 						</datalist></td>
+					
 					<td id="result" class="re">0</td>
 				</tr>
 			</c:forEach>
 			<tr>
-				
+
 				<td colspan="7" align="right">總計</td>
 				<td id="tot">0</td>
 			</tr>
@@ -280,10 +282,9 @@ ul.slides li img {
 		<button type="button" class="continueShopping"
 			onclick="mallRedirector()">繼續購物</button>
 		<button type="button" class="checkOut" onclick="checkCart()">結帳</button>
-	    <button style="float:left" onclick="clearCart()">清除購物車</button>
+		<button style="float: left" onclick="clearCart()">清除購物車</button>
 		<!-- 向後端送值用 -->
-		<form method="Post" action=""
-			style="display: none"></form>
+		<form method="Post" action="" style="display: none"></form>
 
 
 		<script>	
@@ -316,26 +317,32 @@ ul.slides li img {
 							
 				var K = document.getElementById('tot').innerHTML;
 				let s = "";
+				let m = "";
 				$("table").eq(0).children("tbody").eq(0).children("tr").each(function(){
 					console.log("$(this).children('td').length="+$(this).children("td").length)
 					
 					let row = $(this).children('td').length;
 					let value1 = $(this).children("td").eq(1).html();
 					let value2 = $(this).children("td").eq(6).children("input").val();
+					let value3 = $(this).children("td").eq(1).html();
 					
 					if(row==8){
-					s+=value2+","	
+					s+=value1+":"+value2+","	
 // 					s+=value1+":"+value2+","
+					}else if(row==2){
+					m+=value3
 					}else{
 					s+="" 
 					}
+					
 				})
 				console.log("s="+s);
+				console.log("m="+m);
 				if (K > 0) {													
 					let r = confirm('是否結帳');
 					if(r==true){
 						console.log('AJAX initialized');
-						$("form").eq(1).attr("action","/WebProject/controller/checkout?purchaseInfo="+s).submit();						
+						$("form").eq(1).attr("action","/WebProject/controller/checkout?purchaseInfo="+s+"&totalValue="+m).submit();						
 					}else{
 					window.alert('您的購物車為空，請繼續購物後再結帳');
 						}
@@ -365,6 +372,8 @@ ul.slides li img {
 			})
 			
 			function itemRemove(id) {
+	        var K =confirm('是否確定刪除所選項目?')
+			if (K==true){
 				$.ajax({
 					url : "/WebProject/controller/itemremove",
 					data : {
@@ -384,6 +393,7 @@ ul.slides li img {
 						console.log(thrownError);
 					}
 				})
+			}
 			}
 		</script>
 	</div>
