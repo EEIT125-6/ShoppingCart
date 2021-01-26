@@ -2,15 +2,12 @@ package controller;
 
 import java.sql.SQLException;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import ecpay.payment.integration.AllInOne;
 import ecpay.payment.integration.domain.AioCheckOutALL;
-import ecpay.payment.integration.domain.AioCheckOutWebATM;
+//import ecpay.payment.integration.domain.AioCheckOutWebATM;
 import model.CartDetailBean;
 import model.OrderDetailBean;
 import xun.model.ProductInfoBean;
@@ -34,11 +31,7 @@ import service.CartService;
 @RequestMapping("/controller")
 @SessionAttributes({ "userFullData", "cart", "order" })
 public class ShoppingCartController {
-
-		
-
 	
-
 	@Autowired
 	CartService service;
 
@@ -114,7 +107,7 @@ public class ShoppingCartController {
 	}
 
 	@GetMapping(value = "/clearCart")
-	@SuppressWarnings("unchecked") // 購物車完全清除
+	// 購物車完全清除
 	public @ResponseBody List<CartDetailBean> cartClearer(Model model) {
 		System.out.println("cartClearer initialized");
 		OrderDetailBean orderAttribute = (OrderDetailBean) model.getAttribute("order");
@@ -123,7 +116,6 @@ public class ShoppingCartController {
 		} else {
 			Set<CartDetailBean> myCart = orderAttribute.getCDB();
 			service.deleteAll(myCart);
-			model.addAttribute("order", myCart);
 		}
 
 		return null;
@@ -131,7 +123,7 @@ public class ShoppingCartController {
 	}
 
 	@GetMapping(value = "/itemadd")
-	@SuppressWarnings("unchecked") // 加入商品至購物車
+	// 加入商品至購物車
 	public @ResponseBody List<CartDetailBean> itemAdder(@RequestParam(value = "id") Integer id, Model model) {
 		System.out.println("AAAAAAAAAAAAAAAAAA  itemAdder initialized");
 		OrderDetailBean orderAttribute = (OrderDetailBean) model.getAttribute("order");
@@ -170,13 +162,13 @@ public class ShoppingCartController {
 		return remap;
 	}
 
-	@PostMapping("/creditCardCheckOut")
+	@PostMapping("/creditCardCheckOut") // 導向綠界金流
 	public @ResponseBody String genAioCheckOutAll(Model model) {
 		AllInOne all = new AllInOne("");
 		AioCheckOutALL obj = new AioCheckOutALL();
-		String amount=(String)model.getAttribute("totalValue");
+//		String amount=(String)model.getAttribute("totalValue");
 		System.out.println("amount="+(String)model.getAttribute("totalValue"));
-		obj.setMerchantTradeNo("zol89rydhey2564tt895");
+		obj.setMerchantTradeNo("zol89rydhey25kktt895");
 		obj.setMerchantTradeDate("2021/01/24 22:40:18");
 		obj.setTotalAmount("350");
 		obj.setTradeDesc("ZEST CheckOut");
@@ -188,7 +180,6 @@ public class ShoppingCartController {
 	}
 
 	public String getTime() {
-
 		Calendar currentTime = Calendar.getInstance();
 
 		StringBuffer sb = new StringBuffer();
@@ -204,7 +195,5 @@ public class ShoppingCartController {
 		sb.append(currentTime.get(Calendar.MINUTE)).append(" 分 ");
 
 		return sb.toString();
-
 	}
-
 }

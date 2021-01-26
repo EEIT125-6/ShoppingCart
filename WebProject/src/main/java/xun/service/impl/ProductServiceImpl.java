@@ -81,6 +81,28 @@ public class ProductServiceImpl implements ProductService {
 	public void productReOnShelf(Integer productid) {
 		pDao.productReOnShelf(productid);
 	}
+
+	@Transactional
+	@Override
+	public void productRemoveByStore(Integer productid) {
+		pDao.productRemoveByStore(productid);
+	}
+
+	@Transactional
+	@Override
+	public List<ProductInfoBean> getAllProduct() {
+		return pDao.getAllProduct();
+	}	
 	
+	@Transactional
+	@Override
+	public List<ProductInfoBean> getAllProductByUserId(String userId) {
+		return pDao.getAllProductByUserId(userId);
+	}
 	
+	@Transactional
+	@Override
+	public Integer productChange(Integer productId, String status) {
+		return pDao.productChange(productId, status);
+	}
 }

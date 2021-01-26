@@ -22,8 +22,8 @@ public class RootAppConfig {
 	public static final String dbPassword = "tiger";
 	public static final String dbDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	public static final String sqlType = "sqlserver";
-	public static final String sqlUrl = "127.0.0.1";
-//	public static final String sqlUrl = "10.31.25.130";
+//	public static final String sqlUrl = "127.0.0.1";
+	public static final String sqlUrl = "10.31.25.130";
 	public static final String sqlPort = "1433";
 	public static final String dbName = "WebProject";
 	
@@ -75,7 +75,7 @@ public class RootAppConfig {
 	private Properties additionalPropertiesMsSQL() {
 		Properties properties=new Properties();
 		properties.put("hibernate.dialect", org.hibernate.dialect.SQLServer2012Dialect.class);
-		properties.put("hibernate.show_sql", Boolean.FALSE);
+		properties.put("hibernate.show_sql", Boolean.TRUE);
 		properties.put("hibernate.format_sql", Boolean.TRUE);
 		properties.put("default_batch_fetch_size", 10);
 		properties.put("hibernate.hbm2ddl.auto", "update");

@@ -1,9 +1,6 @@
 package dao;
 
 import java.sql.SQLException;
-
-
-
 import java.util.List;
 import java.util.Set;
 
@@ -12,7 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
 import model.CartDetailBean;
 import model.OrderDetailBean;
 import xun.model.ProductInfoBean;
@@ -20,7 +17,6 @@ import webUser.model.WebUserData;
 
 @Repository
 public class CartDAOImpl implements CartDAO {
-
 	SessionFactory sessionFactory;
 
 	@Autowired
@@ -36,16 +32,13 @@ public class CartDAOImpl implements CartDAO {
 	@Override
 	public void save(OrderDetailBean odb) { //此方法永續化訂單內容
 		sessionFactory.getCurrentSession().save(odb);
-		
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public OrderDetailBean getOrderByUserId(WebUserData wus) { //
-
 	    	String hql = "FROM OrderDetailBean as od WHERE od.webUserData =:wus AND od.purchase_Payment = false";
 	    	List<OrderDetailBean> list = sessionFactory.getCurrentSession().createQuery(hql).setParameter("wus",wus).getResultList();
-	    
 	    	if(list.size()>0) {
 	    		return list.get(0);
 	        }else {
@@ -97,7 +90,6 @@ public class CartDAOImpl implements CartDAO {
 		System.out.println("now inside DAO");
 		System.out.println("idAAAAAAAAAAAAAAAAAA id="+id);
 		Session session = sessionFactory.getCurrentSession();
-//		 Query <CartDetailBean> query = ;
 		 List<CartDetailBean> list = session.createQuery(hql).setParameter("id", id).getResultList();
 		 System.out.println("list inside DAO="+list);
 		 return list;
@@ -108,25 +100,15 @@ public class CartDAOImpl implements CartDAO {
 		return sessionFactory.getCurrentSession().get(ProductInfoBean.class,id);
 	}
 
-
 	@Override
 	public void deleteAll(Set<CartDetailBean> cdb) {
-		
 		for (CartDetailBean i :cdb){
 			sessionFactory.getCurrentSession().delete(i);
 		}
-		
 	}
 		
 	@Override
 	public void delete(CartDetailBean k) {
-		
 			sessionFactory.getCurrentSession().delete(k);
-			
-		
-		
-		
 	}
-	
-
 }

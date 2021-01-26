@@ -1,7 +1,6 @@
 package service;
 
 import java.sql.SQLException;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+
 import dao.CartDAO;
 import model.CartDetailBean;
 import model.OrderDetailBean;
@@ -35,7 +35,7 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	@Transactional
-	@SuppressWarnings("unchecked") // 取得使用者個人購物車資料
+	// 取得使用者個人購物車資料
 	public OrderDetailBean getOrderByUserId(WebUserData wus) {
 		System.out.println("ServiceLayerIdCheck=" + wus);
 		return DAO.getOrderByUserId(wus);
@@ -89,8 +89,6 @@ public class CartServiceImpl implements CartService {
 		return remap;
 	}
 
-
-
 	@Override
 	@Transactional
 	public void deleteAll(Set<CartDetailBean> cdb) {
@@ -103,5 +101,4 @@ public class CartServiceImpl implements CartService {
 	public void delete(CartDetailBean k) {
 		DAO.delete(k);
 	}
-
 }

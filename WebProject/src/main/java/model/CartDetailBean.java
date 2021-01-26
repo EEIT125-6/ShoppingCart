@@ -1,27 +1,22 @@
 package model;
 
-import java.util.LinkedHashMap;
-
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gson.annotations.Expose;
-import javax.persistence.CascadeType;
+
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import xun.model.ProductInfoBean;
-import xun.model.StoreBean;
 
 @Entity
 @Table(name = "CartDetail") //本類別封裝個別購物車內詳細商品資訊
-public class CartDetailBean {
+public class CartDetailBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,8 +31,6 @@ public class CartDetailBean {
 	public CartDetailBean() {
 		super();
 	}
-		
-	
 	
 	public CartDetailBean(ProductInfoBean product,
 			Integer product_quantity, OrderDetailBean orderDetailBean) {
@@ -66,9 +59,4 @@ public class CartDetailBean {
 	public void setProduct_quantity(Integer product_quantity) {
 		this.product_quantity = product_quantity;
 	}
-	
-	
-	
-
-	
 }

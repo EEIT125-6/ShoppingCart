@@ -6,14 +6,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.ui.Model;
+
 import model.CartDetailBean;
 import model.OrderDetailBean;
 import webUser.model.WebUserData;
 import xun.model.ProductInfoBean;
 
 public interface CartService {
-
-
 	List<CartDetailBean> getCartList(); // 取得目前所有的購物車列表
 	
 	List<ProductInfoBean> getProductList(); //取得商城所有商品列表
@@ -34,6 +33,5 @@ public interface CartService {
     
     public void delete(CartDetailBean k); //此方法商除購物車內特定資料
     
-    public void deleteAll(Set<CartDetailBean> myCart);//此方法刪除購物車內資料
-    
+    public void deleteAll(Set<CartDetailBean> myCart);//此方法刪除購物車內資料 
 }

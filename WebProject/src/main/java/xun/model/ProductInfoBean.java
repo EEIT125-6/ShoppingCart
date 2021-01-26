@@ -1,7 +1,6 @@
 package xun.model;
 
 import javax.persistence.CascadeType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +24,6 @@ public class ProductInfoBean {
 	String product_status;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "Store_Id")
-	@JsonIgnore
 	private StoreBean storebean;
 	
 	public ProductInfoBean() {
